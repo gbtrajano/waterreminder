@@ -16,12 +16,8 @@ def enviar_lembrete():
     }
     requests.post(url, json=payload)
 
-# Agendamentos (Horários desejados)
-schedule.every().day.at("09:00").do(enviar_lembrete)
-schedule.every().day.at("11:00").do(enviar_lembrete)
-schedule.every().day.at("14:00").do(enviar_lembrete)
-schedule.every().day.at("16:00").do(enviar_lembrete)
-schedule.every().day.at("18:00").do(enviar_lembrete)
+# Agendamento de teste para às 22:13
+schedule.every().day.at("22:13").do(enviar_lembrete)
 
 print("Bot de lembrete iniciado...")
 
