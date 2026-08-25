@@ -1,30 +1,27 @@
-import time
+import os
 import requests
-import schedule
 
-# Configurações do seu bot
-TELEGRAM_TOKEN = "8955435133:AAHA_G_frQF8-dg4Rmo29FTgTAoaqgGWZ90"
-CHAT_ID = "1147312591"  # Pode obter enviando uma mensagem para o bot @userinfobot
+# Busca o Token das variáveis de ambiente / Secrets do GitHub
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+CHAT_ID = "1147312591"
+
 
 def enviar_lembrete():
-    mensagem = "💧 *Hora de beber água!* Mantenha-se hidratado."
-    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-    payload = {
-        "chat_id": CHAT_ID,
-        "text": mensagem,
-        "parse_mode": "Markdown"
-    }
-    requests.post(url, json=payload)
+  if not TELEGRAM_TOKEN:
+    print("Erro: TELEGRAM_TOKEN não configurado!")
+    return
 
-# Agendamentos (Horários desejados)
-schedule.every().day.at("09:00").do(enviar_lembrete)
-schedule.every().day.at("11:00").do(enviar_lembrete)
-schedule.every().day.at("14:00").do(enviar_lembrete)
-schedule.every().day.at("16:00").do(enviar_lembrete)
-schedule.every().day.at("18:00").do(enviar_lembrete)
+  mensagem = "💧 *Hora de beber água!* Mantenha-se hidratado."
+  url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
+  payload = {
+      "chat_id": CHAT_ID,
+      "text": mensagem,
+      "parse_mode": "Markdown",
+  }
 
-print("Bot de lembrete iniciado...")
+  response = requests.post(url, json=payload)
+  print(f"Status do envio: {response.status_code}")
 
-while True:
-    schedule.run_pending()
-    time.sleep(60)
+
+if __name__ == "__main__":
+  enviar_lembrete()
