@@ -1,9 +1,13 @@
-name: Teste Lembrete de Água via Telegram
+name: Lembrete de Água via Telegram
 
 on:
   schedule:
-    # 22:30 no Brasil (UTC-3) equivale a 01:30 UTC
-    - cron: '30 1 * * *'
+    # Horários com minutos cravados (00 min): 09:00, 12:00, 17:00, 18:00 e 20:00 (Brasil)
+    - cron: '0 12,15,20,21,23 * * *'
+    
+    # Horários de meia hora (30 min): 10:30, 14:30 e 15:30 (Brasil)
+    - cron: '30 13,17,18 * * *'
+
   workflow_dispatch:
 
 jobs:
@@ -19,8 +23,8 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Instalar bibliotecas
+      - name: Instalar dependências
         run: pip install requests
 
-      - name: Executar script Python
+      - name: Executar bot
         run: python bot.py
