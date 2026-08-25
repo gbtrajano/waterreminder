@@ -1,0 +1,26 @@
+name: Lembrete de Água via Telegram
+
+on:
+  schedule:
+    # 09h, 11h, 14h, 16h e 18h no Brasil equivalem a 12h, 14h, 17h, 19h e 21h em UTC
+    - cron: '0 12,14,17,19,21 * * *'
+  workflow_dispatch: # Botão para disparar manualmente na aba Actions
+
+jobs:
+  enviar-lembrete:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Instalar biblioteca requests
+        run: pip install requests
+
+      - name: Executar script Python
+        run: python bot.py
